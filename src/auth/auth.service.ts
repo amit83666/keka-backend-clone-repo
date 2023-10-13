@@ -13,13 +13,12 @@ export class AuthService {
     const user = await this.userService.findByEmail(email);
     if(user && user.password === pass){
         const { password, ...result } = user.toObject();
-        console.log("result ", result);
         return result;
     }
     return null;
 }
 async login(user:any){
-  const payload = { username: user.username, sub: user.userId };
+  const payload = { email: user.email, sub: user.id, role:user.role, phone:user.phone };
   return {
     access_token: this.jwtService.sign(payload),
   };
